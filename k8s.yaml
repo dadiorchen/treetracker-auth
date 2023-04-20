@@ -12,15 +12,119 @@ spec:
       labels:
         app: treetracker-auth
     spec:
-      hostAliases:
-        - ip: "192.168.0.104"
-          hostnames:
-          - "treetracker.local"
       containers:
       - name: treetracker-auth
         image: dadiorchen/treetracher-auth:test1
+        # sleep 10000
+        command: ["/bin/sh", "-c", "sleep 1000001"]
         ports:
         - containerPort: 3000
+        volumeMounts:
+          - name: treetracker-auth-config
+            mountPath: /keycloak.json
+            subPath: keycloak.json
+      volumes:
+        - name: treetracker-auth-config
+          configMap:
+            name: treetracker-auth-config
+
+---
+# keycloak config by configmap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: treetracker-auth-config
+data:
+  keycloak.json: |
+    {
+      "realm": "treetracker",
+      "bearer-only": true,
+      "auth-server-url": "https://dev-k8s.treetracker.org/auth",
+      "ssl-required": "external",
+      "resource": "microservice",
+      "confidential-port": 0,
+      "credentials": {
+        "secret": "d9ad61fa-fdaf-446a-9b73-6be22c976b21"
+      },
+      "policy-enforcer": {
+        "user-managed-access": {},
+        "enforcement-mode": "ENFORCING",
+        "paths": [
+          {
+            "name": "web-map-settings",
+            "path": "/test-api/web-map-settings",
+            "methods": [
+              {
+                "method": "GET",
+                "scopes": [
+                  "view"
+                ]
+              },
+              {
+                "method": "POST",
+                "scopes": [
+                  "edit"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "web-map-organizations",
+            "path": "/test-api/organizations/:organizationId",
+            "methods": [
+              {
+                "method": "GET",
+                "scopes": [
+                  "view"
+                ]
+              },
+              {
+                "method": "POST",
+                "scopes": [
+                  "edit"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "web-map-theme-organization",
+            "path": "/organizations/{organization_id}/theme",
+            "methods": [
+              {
+                "method": "GET",
+                "scopes": [
+                  "urn:app.com:scopes:view"
+                ]
+              },
+              {
+                "method": "POST",
+                "scopes": [
+                  "urn:app.com:scopes:create"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "setttings2",
+            "path": "/settings2",
+            "methods": [
+              {
+                "method": "GET",
+                "scopes": [
+                  "urn:app.com:scopes:edit"
+                ]
+              },
+              {
+                "method": "POST",
+                "scopes": [
+                  "urn:app.com:scopes:create"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
 
 ---
 apiVersion: v1
