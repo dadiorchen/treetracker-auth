@@ -10,14 +10,14 @@
     <script src="lib/jwt-decode.min.js"></script>
     -->
 
-    <script src="https://treetracker.local/auth/js/keycloak.js"></script>
-    <script src="https://treetracker.local/auth/js/keycloak-authz.js"></script>
+    <script src="https://dev-k8s.treetracker.org/auth/js/keycloak.js"></script>
+    <script src="https://dev-k8s.treetracker.org/auth/js/keycloak-authz.js"></script>
     <script >
       var keycloak;
       var auzTemp;
       window.onload = function() {
         keycloak = new Keycloak({
-          url: 'https://treetracker.local/auth',
+          url: 'https://dev-k8s.treetracker.org/auth',
           realm: 'treetracker',
           clientId: 'webmap',
           // realm: 'quickstart',
@@ -73,7 +73,7 @@
       }
 
       function handleAPI(){
-        fetch('https://treetracker.local/api/organizations/178/theme', {
+        fetch('https://dev-k8s.treetracker.org/test-api/organizations/178/theme', {
           method: 'GET',
           headers: {
             //'Authorization': 'Bearer ' + keycloak.token,
@@ -89,7 +89,7 @@
       }
 
       function handleAPI2(){
-        fetch('https://treetracker.local/api/web-map-settings', {
+        fetch('https://dev-k8s.treetracker.org/test-api/web-map-settings', {
           method: 'GET',
           headers: {
             //'Authorization': 'Bearer ' + keycloak.token,
@@ -99,7 +99,7 @@
       }
 
       function handleAPI3(){
-        fetch('https://treetracker.local/api/web-map-settings', {
+        fetch('https://dev-k8s.treetracker.org/test-api/web-map-settings', {
           method: 'POST',
           headers: {
             //'Authorization': 'Bearer ' + keycloak.token,
@@ -109,7 +109,7 @@
       }
 
       function handleAPI4(){
-        fetch('https://treetracker.local/api/organizations/178', {
+        fetch('https://dev-k8s.treetracker.org/test-api/organizations/178', {
           method: 'GET',
           headers: {
             //'Authorization': 'Bearer ' + keycloak.token,
@@ -119,7 +119,7 @@
       }
 
       function handleAPI5(){
-        fetch('https://treetracker.local/api/organizations/178', {
+        fetch('https://dev-k8s.treetracker.org/test-api/organizations/178', {
           method: 'POST',
           headers: {
             //'Authorization': 'Bearer ' + keycloak.token,
