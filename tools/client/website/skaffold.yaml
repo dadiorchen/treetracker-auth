@@ -1,0 +1,13 @@
+apiVersion: skaffold/v2beta29
+kind: Config
+metadata:
+  name: website
+build:
+  artifacts:
+  - image: treetracker-auth-client
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - k8s.yaml
